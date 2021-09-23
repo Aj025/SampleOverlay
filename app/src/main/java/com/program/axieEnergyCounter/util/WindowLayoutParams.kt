@@ -1,4 +1,4 @@
-package simple.program.sampleoverlay.util
+package com.program.axieEnergyCounter.util
 
 import android.annotation.SuppressLint
 import android.graphics.PixelFormat

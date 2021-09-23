@@ -1,4 +1,4 @@
-package simple.program.sampleoverlay.util
+package com.program.axieEnergyCounter.util
 
 import android.app.Service
 import android.content.Context

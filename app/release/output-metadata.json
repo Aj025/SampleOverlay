@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "simple.program.sampleoverlay",
+  "applicationId": "com.program.axieEnergyCounter",
   "variantName": "release",
   "elements": [
     {

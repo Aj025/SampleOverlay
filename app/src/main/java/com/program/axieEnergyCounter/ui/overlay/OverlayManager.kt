@@ -1,9 +1,10 @@
-package simple.program.sampleoverlay.ui.overlay
+package com.program.axieEnergyCounter.ui.overlay
 
 import android.content.Intent
 import android.graphics.Point
-import simple.program.sampleoverlay.service.OverlayService
-import simple.program.sampleoverlay.ui.HomeActivity
+import com.program.axieEnergyCounter.Constant
+import com.program.axieEnergyCounter.service.OverlayService
+import com.program.axieEnergyCounter.ui.HomeActivity
 
 
 class OverlayManager(
@@ -23,8 +24,8 @@ class OverlayManager(
     override fun onButtonTapped(centerOfButton: Point?) {
         val intent = Intent(service, HomeActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.putExtra(HomeActivity.COUNTER, mainOverlay.getCounter())
-        intent.putExtra(OverlayService.EXTRA_SERVICE_RUNNING, true)
+        intent.putExtra(Constant.COUNTER, mainOverlay.getCounter())
+        intent.putExtra(Constant.EXTRA_SERVICE_RUNNING, true)
         service.startActivity(intent)
     }
 

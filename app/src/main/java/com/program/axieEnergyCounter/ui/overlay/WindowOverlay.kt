@@ -1,4 +1,4 @@
-package simple.program.sampleoverlay.ui.overlay
+package com.program.axieEnergyCounter.ui.overlay
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,21 +9,22 @@ import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.View
 import android.view.View.OnTouchListener
-import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import simple.program.sampleoverlay.R
-import simple.program.sampleoverlay.service.OverlayService
-import simple.program.sampleoverlay.util.Overlay
-import simple.program.sampleoverlay.util.WindowLayoutParams
+import com.program.axieEnergyCounter.Constant
+import com.program.axieEnergyCounter.Constant.BUTTON_PRESSED_INTERVAL
+import com.program.axieEnergyCounter.R
+import com.program.axieEnergyCounter.service.OverlayService
+import com.program.axieEnergyCounter.util.Overlay
+import com.program.axieEnergyCounter.util.WindowLayoutParams
 
 class WindowOverlay(
     private val appContext: Context,
     private val callbacks: Callbacks?
 ) : Overlay(appContext) {
 
-    private var counter = 3
+    private var counter = Constant.STARTING_COUNT
     private var trashZoneOverlay: TrashZoneOverlay? = null
 
     private val btnDecrease: ImageView
@@ -32,6 +33,11 @@ class WindowOverlay(
     private val imgBackground: ImageView
     private val btnClear: ImageView
     private val btnEnd: ImageView
+
+    private var lastClear = 0L
+    private var lastEnd = 0L
+    private var lastIncrease = 0L
+    private var lastDecrease = 0L
 
     interface Callbacks {
         fun onButtonTapped(centerOfButton: Point?)
@@ -55,49 +61,70 @@ class WindowOverlay(
 
         trashZoneOverlay = TrashZoneOverlay(appContext)
         setInitialLayoutParams()
-        setPositionOnScreen(Point(0, 0)) // TODO needs to work for multiple screen sizes
+        setPositionOnScreen(Point(0, 0))
 
-        btnDecrease.setOnClickListener {
-            counter -= 1
-            tvText.text = counter.toString()
-            val i = Intent()
-            i.putExtra(OverlayService.EXTRA_SERVICE_COUNTER, counter)
-            i.action = OverlayService.FILTER
-            appContext.sendBroadcast(i)
-        }
 
-        btnIncrease.setOnClickListener {
-            counter += 1
-            tvText.text = counter.toString()
-            val i = Intent()
-            i.putExtra(OverlayService.EXTRA_SERVICE_COUNTER, counter)
-            i.action = OverlayService.FILTER
-            appContext.sendBroadcast(i)
-        }
-
-        btnClear.setOnClickListener {
-            counter =3
-            tvText.text = counter.toString()
-            val i = Intent()
-            i.putExtra(OverlayService.EXTRA_SERVICE_COUNTER, counter)
-            i.action = OverlayService.FILTER
-            appContext.sendBroadcast(i)
-        }
-
-        btnEnd.setOnClickListener {
-            counter += 2
-            tvText.text = counter.toString()
-            val i = Intent()
-            i.putExtra(OverlayService.EXTRA_SERVICE_COUNTER, counter)
-            i.action = OverlayService.FILTER
-            appContext.sendBroadcast(i)
-        }
         customTouchListener()
         tvText.text = counter.toString()
         imgBackground.setOnClickListener {
             pressButton()
         }
+        btnDecrease.setOnClickListener {
+            if (!checkLastPress(lastDecrease))
+                return@setOnClickListener
+            lastDecrease = System.currentTimeMillis()
+            counter -= 1
+            tvText.text = counter.toString()
+            val i = Intent()
+            i.putExtra(Constant.EXTRA_SERVICE_COUNTER, counter)
+            i.action = Constant.FILTER
+            appContext.sendBroadcast(i)
+        }
+
+        btnIncrease.setOnClickListener {
+            if (!checkLastPress(lastDecrease))
+                return@setOnClickListener
+            lastDecrease = System.currentTimeMillis()
+            counter += 1
+            tvText.text = counter.toString()
+            val i = Intent()
+            i.putExtra(Constant.EXTRA_SERVICE_COUNTER, counter)
+            i.action = Constant.FILTER
+            appContext.sendBroadcast(i)
+        }
+
+        btnClear.setOnClickListener {
+            if (!checkLastPress(lastDecrease))
+                return@setOnClickListener
+            lastDecrease = System.currentTimeMillis()
+            counter = Constant.STARTING_COUNT
+            tvText.text = counter.toString()
+            val i = Intent()
+            i.putExtra(Constant.EXTRA_SERVICE_COUNTER, counter)
+            i.action = Constant.FILTER
+            appContext.sendBroadcast(i)
+        }
+
+        btnEnd.setOnClickListener {
+            if (!checkLastPress(lastDecrease))
+                return@setOnClickListener
+            lastDecrease = System.currentTimeMillis()
+            counter += 2
+            tvText.text = counter.toString()
+            val i = Intent()
+            i.putExtra(Constant.EXTRA_SERVICE_COUNTER, counter)
+            i.action = Constant.FILTER
+            appContext.sendBroadcast(i)
+        }
     }
+
+    private fun checkLastPress(lastPressed : Long) : Boolean {
+        val timeSincePress = System.currentTimeMillis() - lastPressed
+        if (timeSincePress < BUTTON_PRESSED_INTERVAL)
+            return false
+        return true
+    }
+
 
     fun startRevealAnimation() {
         addViewToWindowManager()
@@ -195,6 +222,7 @@ class WindowOverlay(
                                 velocityTracker!!.recycle()
                             val timeSincePress = System.currentTimeMillis() - pressTime!!
                             if (timeSincePress < 300 && !buttonMoved(dX, dY)) {
+                                btnEnd.performClick()
                                 return false
                             }
                             if (isInTrashZone(event.rawY.toInt())) hide()
@@ -241,6 +269,7 @@ class WindowOverlay(
                                 velocityTracker!!.recycle()
                             val timeSincePress = System.currentTimeMillis() - pressTime!!
                             if (timeSincePress < 300 && !buttonMoved(dX, dY)) {
+                                btnClear.performClick()
                                 return false
                             }
                             if (isInTrashZone(event.rawY.toInt())) hide()
@@ -287,6 +316,7 @@ class WindowOverlay(
                                 velocityTracker!!.recycle()
                             val timeSincePress = System.currentTimeMillis() - pressTime!!
                             if (timeSincePress < 300 && !buttonMoved(dX, dY)) {
+                                btnIncrease.performClick()
                                 return false
                             }
                             if (isInTrashZone(event.rawY.toInt())) hide()
@@ -333,6 +363,7 @@ class WindowOverlay(
                                 velocityTracker!!.recycle()
                             val timeSincePress = System.currentTimeMillis() - pressTime!!
                             if (timeSincePress < 300 && !buttonMoved(dX, dY)) {
+                                btnDecrease.performClick()
                                 return false
                             }
                             if (isInTrashZone(event.rawY.toInt())) hide()

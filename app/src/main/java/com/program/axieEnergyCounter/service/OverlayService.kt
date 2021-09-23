@@ -1,4 +1,4 @@
-package simple.program.sampleoverlay.service
+package com.program.axieEnergyCounter.service
 
 import android.app.*
 import android.content.Context
@@ -9,9 +9,12 @@ import android.os.IBinder
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import simple.program.sampleoverlay.R
-import simple.program.sampleoverlay.ui.HomeActivity
-import simple.program.sampleoverlay.ui.overlay.OverlayManager
+import com.program.axieEnergyCounter.Constant
+import com.program.axieEnergyCounter.Constant.EXTRA_SERVICE_DESTROYED
+import com.program.axieEnergyCounter.Constant.FILTER
+import com.program.axieEnergyCounter.R
+import com.program.axieEnergyCounter.ui.HomeActivity
+import com.program.axieEnergyCounter.ui.overlay.OverlayManager
 
 class OverlayService : Service() {
 
@@ -25,10 +28,6 @@ class OverlayService : Service() {
                 null
             }
         }
-        const val EXTRA_SERVICE_DESTROYED = "EXTRA_SERVICE_DESTROYED"
-        const val EXTRA_SERVICE_COUNTER = "EXTRA_SERVICE_COUNTER"
-        const val EXTRA_SERVICE_RUNNING = "EXTRA_SERVICE_RUNNING"
-        const val FILTER = " simple.program.sampleoverlay.service.OverlayService"
 
         fun getIntent(context: Context?): Intent? {
             return Intent(context, OverlayService::class.java)
@@ -96,8 +95,8 @@ class OverlayService : Service() {
         manager.createNotificationChannel(chan)
         val intent = Intent(this, HomeActivity::class.java)
         Log.d("TEST_SERVICE", overlayManager?.getCounter().toString())
-        intent.putExtra(HomeActivity.COUNTER, overlayManager?.getCounter())
-        intent.putExtra(EXTRA_SERVICE_RUNNING, true)
+        intent.putExtra(Constant.COUNTER, overlayManager?.getCounter())
+        intent.putExtra(Constant.EXTRA_SERVICE_RUNNING, true)
 
         val pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
