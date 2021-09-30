@@ -3,4 +3,5 @@
     <string name="drag_to_dismiss">Drag down to dismiss</string>
     <string name="is_running_service">Service is Running</string>
     <string name="is_not_running_service">Service is not Running</string>
+    <string name="current_round">RND %1$d</string>
 </resources>

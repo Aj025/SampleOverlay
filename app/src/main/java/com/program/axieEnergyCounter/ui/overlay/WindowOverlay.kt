@@ -15,7 +15,6 @@ import android.widget.TextView
 import com.program.axieEnergyCounter.Constant
 import com.program.axieEnergyCounter.Constant.BUTTON_PRESSED_INTERVAL
 import com.program.axieEnergyCounter.R
-import com.program.axieEnergyCounter.service.OverlayService
 import com.program.axieEnergyCounter.util.Overlay
 import com.program.axieEnergyCounter.util.WindowLayoutParams
 
@@ -30,9 +29,12 @@ class WindowOverlay(
     private val btnDecrease: ImageView
     private val btnIncrease: ImageView
     private val tvText: TextView
+    private val tvRound: TextView
     private val imgBackground: ImageView
     private val btnClear: ImageView
     private val btnEnd: ImageView
+
+    private var currentRound = 1
 
     private var lastClear = 0L
     private var lastEnd = 0L
@@ -58,6 +60,7 @@ class WindowOverlay(
         btnEnd = windowManagerView!!.findViewById(R.id.img_end)
         btnClear = windowManagerView!!.findViewById(R.id.img_recycle)
         tvText = windowManagerView!!.findViewById(R.id.tv_text)
+        tvRound = windowManagerView!!.findViewById(R.id.tv_round)
 
         trashZoneOverlay = TrashZoneOverlay(appContext)
         setInitialLayoutParams()
@@ -66,6 +69,8 @@ class WindowOverlay(
 
         customTouchListener()
         tvText.text = counter.toString()
+        tvRound.text = appContext.getString(R.string.current_round, currentRound)
+
         imgBackground.setOnClickListener {
             pressButton()
         }
@@ -82,9 +87,9 @@ class WindowOverlay(
         }
 
         btnIncrease.setOnClickListener {
-            if (!checkLastPress(lastDecrease))
+            if (!checkLastPress(lastIncrease))
                 return@setOnClickListener
-            lastDecrease = System.currentTimeMillis()
+            lastIncrease = System.currentTimeMillis()
             counter += 1
             tvText.text = counter.toString()
             val i = Intent()
@@ -94,9 +99,11 @@ class WindowOverlay(
         }
 
         btnClear.setOnClickListener {
-            if (!checkLastPress(lastDecrease))
+            if (!checkLastPress(lastClear))
                 return@setOnClickListener
-            lastDecrease = System.currentTimeMillis()
+            currentRound = 1
+            tvRound.text = appContext.getString(R.string.current_round, currentRound)
+            lastClear = System.currentTimeMillis()
             counter = Constant.STARTING_COUNT
             tvText.text = counter.toString()
             val i = Intent()
@@ -106,9 +113,11 @@ class WindowOverlay(
         }
 
         btnEnd.setOnClickListener {
-            if (!checkLastPress(lastDecrease))
+            if (!checkLastPress(lastEnd))
                 return@setOnClickListener
-            lastDecrease = System.currentTimeMillis()
+            currentRound += 1
+            tvRound.text = appContext.getString(R.string.current_round, currentRound)
+            lastEnd = System.currentTimeMillis()
             counter += 2
             tvText.text = counter.toString()
             val i = Intent()
