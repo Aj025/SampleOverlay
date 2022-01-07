@@ -1,12 +1,12 @@
-package simple.program.sampleoverlay.ui.overlay
+package com.program.axieEnergyCounter.ui.overlay
 
 import android.content.Context
 import android.view.View
 import android.widget.RelativeLayout
-import simple.program.sampleoverlay.R
-import simple.program.sampleoverlay.util.DisplayInfo
-import simple.program.sampleoverlay.util.Overlay
-import simple.program.sampleoverlay.util.WindowLayoutParams
+import com.program.axieEnergyCounter.R
+import com.program.axieEnergyCounter.util.DisplayInfo
+import com.program.axieEnergyCounter.util.Overlay
+import com.program.axieEnergyCounter.util.WindowLayoutParams
 
 class TrashZoneOverlay(appContext: Context) : Overlay(appContext) {
 

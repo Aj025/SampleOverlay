@@ -1,9 +1,11 @@
-package simple.program.sampleoverlay.ui.overlay
+package com.program.axieEnergyCounter.ui.overlay
 
 import android.content.Intent
 import android.graphics.Point
-import simple.program.sampleoverlay.service.OverlayService
-import simple.program.sampleoverlay.ui.HomeActivity
+import com.program.axieEnergyCounter.Constant
+import com.program.axieEnergyCounter.OverlaySize
+import com.program.axieEnergyCounter.service.OverlayService
+import com.program.axieEnergyCounter.ui.HomeActivity
 
 
 class OverlayManager(
@@ -20,11 +22,19 @@ class OverlayManager(
         mainOverlay.hide()
     }
 
+    fun setAlpha(value : Int) {
+        mainOverlay.setAlpha(value)
+    }
+
+    fun setSize(size : OverlaySize) {
+        mainOverlay.setSize(size)
+    }
+
     override fun onButtonTapped(centerOfButton: Point?) {
         val intent = Intent(service, HomeActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.putExtra(HomeActivity.COUNTER, mainOverlay.getCounter())
-        intent.putExtra(OverlayService.EXTRA_SERVICE_RUNNING, true)
+        intent.putExtra(Constant.COUNTER, mainOverlay.getCounter())
+        intent.putExtra(Constant.EXTRA_SERVICE_RUNNING, true)
         service.startActivity(intent)
     }
 
@@ -43,4 +53,13 @@ class OverlayManager(
     fun setPortraitOrientation() {
         mainOverlay.flipXY()
     }
+
+    fun setVibration(value: Boolean) {
+        mainOverlay.setVibration(value)
+    }
+
+    fun setSounds(value: Boolean) {
+        mainOverlay.setSound(value)
+    }
+
 }

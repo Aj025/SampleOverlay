@@ -1,4 +1,4 @@
-package simple.program.sampleoverlay
+package com.program.axieEnergyCounter
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

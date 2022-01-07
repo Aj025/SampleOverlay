@@ -1,111 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_overlay"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="4dp"
-    android:background="@null">
+    android:background="@null"
+    android:padding="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent_overlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="5dp">
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_decrease"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintLeft_toLeftOf="@id/img_decrease"
+            app:layout_constraintTop_toTopOf="@id/img_recycle"
+            app:layout_constraintBottom_toBottomOf="@id/img_recycle"/>
 
         <ImageView
             android:id="@+id/img_recycle"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:background="@drawable/img_box"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:src="@drawable/ic_renew_24"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/img_renew"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_increase"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@color/colorGreen"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/img_decrease"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintLeft_toRightOf="@id/img_recycle"
+            app:layout_constraintTop_toTopOf="@id/img_recycle"
+            app:layout_constraintBottom_toBottomOf="@id/img_recycle"/>
 
         <ImageView
             android:id="@+id/img_decrease"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/img_decrease"
-            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tv_text"
             app:layout_constraintEnd_toStartOf="@+id/tv_text"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/img_recycle"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_text"
+            tools:layout_editor_absoluteY="10dp" />
 
         <ImageView
             android:id="@+id/img_background"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:background="@drawable/img_box"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/img_decrease"
             app:layout_constraintRight_toLeftOf="@id/img_increase"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/img_recycle" />
 
-
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:clickable="false"
             android:focusable="false"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
             android:text="0"
+            android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeStepGranularity="5sp"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toStartOf="@+id/img_increase"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/img_decrease" />
+            app:layout_constraintStart_toEndOf="@+id/img_decrease"
+            app:layout_constraintTop_toBottomOf="@id/img_recycle"
+            tools:layout_editor_absoluteY="10dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_round"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="5dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:maxLines="1"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:text="RND 100"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:autoSizeMaxTextSize="12dp"
+            app:autoSizeMinTextSize="7sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintLeft_toLeftOf="@id/img_background"
+            app:layout_constraintRight_toRightOf="@id/img_background"
+            app:layout_constraintTop_toTopOf="@id/img_background" />
 
         <ImageView
             android:id="@+id/img_increase"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/img_increase"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/img_end"
+            app:layout_constraintBottom_toBottomOf="@id/tv_text"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tv_text"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="@id/tv_text"
+            tools:layout_editor_absoluteY="10dp" />
 
         <ImageView
             android:id="@+id/img_end"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:background="@drawable/img_box"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:src="@drawable/ic_close_24"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/img_decrease"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/img_increase"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/img_close"
+            app:layout_constraintLeft_toLeftOf="@id/img_recycle"
+            app:layout_constraintRight_toRightOf="@id/img_recycle"
+            app:layout_constraintTop_toBottomOf="@id/img_background" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

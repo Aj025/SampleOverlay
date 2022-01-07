@@ -6,36 +6,197 @@
     android:layout_height="match_parent"
     tools:context=".ui.HomeActivity">
 
-    <TextView
-        android:id="@+id/tv_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:layout_marginTop="30dp"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_axie_calc"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_start"
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/is_running_service"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <TextView
+        android:id="@+id/tv_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="30dp"
+        app:layout_constraintLeft_toLeftOf="@id/tv_label"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_label"
+        tools:text="Hello World!" />
+
+    <TextView
+        android:id="@+id/tv_settings"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/settings"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_test" />
+
+    <Button
+        android:id="@+id/btn_apply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="@color/colorGreen"
+        android:text="@string/apply"
+        app:layout_constraintBottom_toBottomOf="@id/tv_settings"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_settings" />
+
+    <TextView
+        android:id="@+id/tv_alpha"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/alpha"
+        app:layout_constraintEnd_toEndOf="@id/tv_settings"
+        app:layout_constraintStart_toStartOf="@id/tv_settings"
+        app:layout_constraintTop_toBottomOf="@id/tv_settings" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slider_alpha"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:stepSize="1"
+        android:value="255"
+        android:valueFrom="0"
+        android:valueTo="255"
+        app:layout_constraintEnd_toEndOf="@id/tv_alpha"
+        app:layout_constraintStart_toStartOf="@id/tv_alpha"
+        app:layout_constraintTop_toBottomOf="@id/tv_alpha" />
+
+    <TextView
+        android:id="@+id/tv_size"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/overlay_size"
+        app:layout_constraintEnd_toEndOf="@id/tv_settings"
+        app:layout_constraintStart_toStartOf="@id/tv_settings"
+        app:layout_constraintTop_toBottomOf="@id/slider_alpha" />
+
+    <Button
+        android:id="@+id/btn_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/small" />
+
+    <Button
+        android:id="@+id/btn_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/medium"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btn_large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/large"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tv_vibration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/vibration"
+        app:layout_constraintTop_toTopOf="@id/toggle_vibration"
+        app:layout_constraintLeft_toLeftOf="@id/tv_size"
+        app:layout_constraintBottom_toBottomOf="@id/toggle_vibration" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/toggle_vibration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="@id/btn_large"
+        app:layout_constraintTop_toBottomOf="@id/btn_small"
+        app:layout_constraintLeft_toLeftOf="@id/btn_small"/>
+
+    <TextView
+        android:id="@+id/tv_sound"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sounds"
+        app:layout_constraintTop_toTopOf="@id/toggle_sounds"
+        app:layout_constraintLeft_toLeftOf="@id/tv_size"
+        app:layout_constraintBottom_toBottomOf="@id/toggle_sounds" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/toggle_sounds"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="@id/btn_large"
+        app:layout_constraintTop_toBottomOf="@id/toggle_vibration"
+        app:layout_constraintLeft_toLeftOf="@id/btn_small"/>
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/ll_sizes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:constraint_referenced_ids="btn_small, btn_medium, btn_large"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_size" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tv_settings,btn_apply,tv_alpha,slider_alpha,tv_size,btn_small,btn_medium,btn_large,tv_vibration,tv_sound,toggle_sounds, toggle_vibration" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:text="Start"
+        app:layout_constraintBottom_toTopOf="@id/btn_stop"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_sound"
+        app:layout_constraintVertical_bias="1" />
 
     <Button
         android:id="@+id/btn_stop"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="stop"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="40dp"
+        android:text="Stop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_start"/>
-
-
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
