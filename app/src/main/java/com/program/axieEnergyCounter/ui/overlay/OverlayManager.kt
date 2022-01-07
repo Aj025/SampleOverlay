@@ -3,6 +3,7 @@ package com.program.axieEnergyCounter.ui.overlay
 import android.content.Intent
 import android.graphics.Point
 import com.program.axieEnergyCounter.Constant
+import com.program.axieEnergyCounter.OverlaySize
 import com.program.axieEnergyCounter.service.OverlayService
 import com.program.axieEnergyCounter.ui.HomeActivity
 
@@ -19,6 +20,14 @@ class OverlayManager(
 
     fun removeAll() {
         mainOverlay.hide()
+    }
+
+    fun setAlpha(value : Int) {
+        mainOverlay.setAlpha(value)
+    }
+
+    fun setSize(size : OverlaySize) {
+        mainOverlay.setSize(size)
     }
 
     override fun onButtonTapped(centerOfButton: Point?) {
@@ -44,4 +53,13 @@ class OverlayManager(
     fun setPortraitOrientation() {
         mainOverlay.flipXY()
     }
+
+    fun setVibration(value: Boolean) {
+        mainOverlay.setVibration(value)
+    }
+
+    fun setSounds(value: Boolean) {
+        mainOverlay.setSound(value)
+    }
+
 }

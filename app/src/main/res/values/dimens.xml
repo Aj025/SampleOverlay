@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="trash_zone_height">150dp</dimen>
+
+    <dimen name="layout_small_width">130dp</dimen>
+    <dimen name="layout_small_height">120dp</dimen>
+    <dimen name="layout_medium_width">170dp</dimen>
+    <dimen name="layout_medium_height">160dp</dimen>
+    <dimen name="layout_large_width">210dp</dimen>
+    <dimen name="layout_large_height">200dp</dimen>
+
+
+    <dimen name="font_small_round">5dp</dimen>
+    <dimen name="font_medium_round">7dp</dimen>
+    <dimen name="font_large_round">20dp</dimen>
 </resources>

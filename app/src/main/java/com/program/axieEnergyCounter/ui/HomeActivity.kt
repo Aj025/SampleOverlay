@@ -9,6 +9,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -19,6 +21,19 @@ import com.program.axieEnergyCounter.Constant
 import com.program.axieEnergyCounter.Constant.COUNTER
 import com.program.axieEnergyCounter.R
 import com.program.axieEnergyCounter.service.OverlayService
+import android.widget.RelativeLayout
+import com.google.android.material.slider.Slider
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.constraintlayout.widget.Group
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.program.axieEnergyCounter.OverlaySize
+import android.widget.CompoundButton
+
+
+
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -28,7 +43,19 @@ class HomeActivity : AppCompatActivity() {
     private var stopButton: Button? = null
     private var textView: AppCompatTextView? = null
     private var textService: TextView? = null
+    private var sliderAlpha: Slider? = null
+    private var btnSmall: Button? = null
+    private var btnMedium: Button? = null
+    private var btnLarge: Button? = null
+    private var btnApply: Button? = null
+    private var switchVibration : SwitchMaterial? = null
+    private var switchSound : SwitchMaterial? = null
+    private var groupSettings: Group? = null
 
+    private var alpha = 255
+    private var size = OverlaySize.MEDIUM
+    private var hasVibration = true
+    private var hasSound = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +65,22 @@ class HomeActivity : AppCompatActivity() {
         stopButton = findViewById(R.id.btn_stop)
         textView = findViewById(R.id.tv_test)
         textService = findViewById(R.id.tv_label)
+        sliderAlpha = findViewById(R.id.slider_alpha)
 
-        var currentCounter =Constant.STARTING_COUNT
+        btnSmall = findViewById(R.id.btn_small)
+        btnMedium = findViewById(R.id.btn_medium)
+        btnLarge = findViewById(R.id.btn_large)
+        btnApply = findViewById(R.id.btn_apply)
+        switchVibration = findViewById(R.id.toggle_vibration)
+        switchSound = findViewById(R.id.toggle_sounds)
+        groupSettings = findViewById(R.id.group_settings)
+
+
+        var currentCounter = Constant.STARTING_COUNT
 
         if (OverlayService.getInstance() != null) {
-            currentCounter = OverlayService.getInstance()?.overlayManager?.getCounter() ?: Constant.STARTING_COUNT
+            currentCounter = OverlayService.getInstance()?.overlayManager?.getCounter()
+                ?: Constant.STARTING_COUNT
             Log.d("TEST_SOMETHING", currentCounter.toString())
         }
 
@@ -51,6 +89,7 @@ class HomeActivity : AppCompatActivity() {
         val isRunning =
             intent.getBooleanExtra(Constant.EXTRA_SERVICE_RUNNING, false)
         if (isRunning) {
+            groupSettings?.visibility = View.VISIBLE
             attemptToStartService()
             textService?.text = getString(R.string.is_running_service)
         } else {
@@ -65,6 +104,39 @@ class HomeActivity : AppCompatActivity() {
             if (serviceIntent != null) stopService(serviceIntent)
         }
 
+        btnSmall?.setOnClickListener {
+            size = OverlaySize.SMALL
+        }
+        btnMedium?.setOnClickListener {
+            size = OverlaySize.MEDIUM
+        }
+        btnLarge?.setOnClickListener {
+            size = OverlaySize.LARGE
+        }
+
+        sliderAlpha?.addOnChangeListener { _, value, _ ->
+            alpha = value.toInt()
+        }
+
+        switchVibration?.setOnCheckedChangeListener { _, isChecked ->
+            hasVibration = isChecked
+        }
+
+        switchSound?.setOnCheckedChangeListener { _, isChecked ->
+            hasSound = isChecked
+        }
+
+        btnApply?.setOnClickListener {
+            Log.d("TEST_SIZE", "From Activity : " + size.ordinal.toString())
+            serviceIntent = OverlayService.getIntent(this@HomeActivity)
+            serviceIntent?.putExtra(Constant.EXTRA_SERVICE_ALPHA, sliderAlpha?.value?.toInt())
+            serviceIntent?.putExtra(Constant.EXTRA_SERVICE_SIZE, size.ordinal)
+            serviceIntent?.putExtra(Constant.EXTRA_SERVICE_VIBRATION, hasVibration)
+            serviceIntent?.putExtra(Constant.EXTRA_SERVICE_SOUND, hasSound)
+            startService(serviceIntent)
+        }
+
+
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 val serviceDestroyed =
@@ -74,7 +146,8 @@ class HomeActivity : AppCompatActivity() {
                     textService?.text = getString(R.string.is_not_running_service)
                 }
 
-                val currentCounter = intent.getIntExtra(Constant.EXTRA_SERVICE_COUNTER, Constant.STARTING_COUNT)
+                val currentCounter =
+                    intent.getIntExtra(Constant.EXTRA_SERVICE_COUNTER, Constant.STARTING_COUNT)
                 textView?.text = "$currentCounter : Current Counter"
             }
         }
@@ -148,7 +221,6 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-
     private fun errorToast() {
         Toast.makeText(
             this,
@@ -156,7 +228,6 @@ class HomeActivity : AppCompatActivity() {
             Toast.LENGTH_LONG
         ).show()
     }
-
 
     private fun resetEnableButton() {
         if (OverlayService.getInstance() == null) {
@@ -166,9 +237,11 @@ class HomeActivity : AppCompatActivity() {
 
     private fun enableButton() {
         enableButton!!.isEnabled = true
+        groupSettings?.visibility = View.GONE
     }
 
     private fun disableButton() {
         enableButton!!.isEnabled = false
+        groupSettings?.visibility = View.VISIBLE
     }
 }
